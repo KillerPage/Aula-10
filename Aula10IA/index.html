@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 10</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        section {
+            padding: 100px 20px;
+            min-height: 100vh;
+        }
+    </style>
+    <script>
+
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua').value = ("");
+            document.getElementById('bairro').value = ("");
+            document.getElementById('cidade').value = ("");
+            document.getElementById('uf').value = ("");
+            document.getElementById('ibge').value = ("");
+        }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+                document.getElementById('uf').value = (conteudo.uf);
+                document.getElementById('ibge').value = (conteudo.ibge);
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
+
+        function pesquisacep(valor) {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('rua').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+                    document.getElementById('uf').value = "...";
+                    document.getElementById('ibge').value = "...";
+
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
+
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        };
+
+    </script>
+
+</head>
+
+<body>
+    <!--nav-->
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"> <img
+                    src="IMG/6240761-inicial-letra-b-tech-logo-design-template-element-eps10-vector-vetor.jpg"
+                    alt="active" width="70" height="70"></a>
+            <ul class="navbar-nav ms-auto" id="menu">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#cadastrar">Cadastrar</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="funcDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Funcionários</a>
+                    <ul class="dropdown-menu" aria-labelledby="funcDropdown">
+                        <li> <a class="dropdown-item" href="#funcionario">Listar</a></li>
+                        <li> <a class="dropdown-item" href="#detalhe">Detalhe</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#mapa">Mapa</a></li>
+                    </ul>
+                </li>
+                <ul class="navbar-nav ms-auto" id="menu">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#contato">Contato</a>
+                    </li>
+                </ul>
+        </div>
+        </div>
+    </nav>
+    <!--seções-->
+    <section id="home" class="bg-primary text-white">
+        <h1 class="text-center">Bem vindo a BrenCorp</h1>
+        <!-- fale um pouco sobre o objetivo do site (tecnologia)-->
+        <h4 class="text-center">Nosso objetivo é trazer o melhor da tecnologia para você</h4>
+        <!-- coloque textos explicando um pouco sobre o projeto, um texto na direita e outro na esquerda, acompanhados com uma imagem em baixo de cada texto-->
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="text-center" style="width: 45%;">
+                <h3>Bem-vindo ao Futuro da Tecnologia</h3>
+                <p>
+
+                    Descubra como a inteligência artificial está transformando o mundo. Aqui, exploramos as últimas tendências, inovações e impactos da tecnologia em nossas vidas, de forma acessível e dinâmica.
+                    
+                    Seja você um entusiasta, profissional ou apenas curioso, este é o seu espaço para se conectar com o que há de mais avançado no universo digital.
+                    
+                    Explore, aprenda e acompanhe a revolução tecnológica..</p>
+                <img src="https://www.lg.com.br/blog/wp-content/uploads/2019/11/tecnologia-e-ser-humano-1.png" alt="Tecnologia"
+                    width="300" height="200">
+            </div>
+            <div class="text-center" style="width: 45%;">
+                <h3>Tecnologia e IA: Conectando Você ao Amanhã</h3>
+                <p>Vivemos uma nova era, onde inteligência artificial e tecnologia moldam o presente e constroem o futuro. Este espaço foi criado para quem quer entender, acompanhar e fazer parte dessa transformação.
+
+                    Aqui, você encontra conteúdos, insights e novidades que mostram como a tecnologia está evoluindo — e como ela pode impactar sua vida.
+                    
+                    Inovação começa com informação. Vamos juntos?</p>
+                <img src="https://files.tecnoblog.net/wp-content/uploads/2023/06/ia-4.png" alt="IA"
+                    width="300" height="200">
+            </div>
+
+    </section>
+    <section id="cadastrar" class="bg-secondary text-white">
+        <h1 class="text-center">Cadastrar no nosso site</h1>
+        <h4>Cadastre-se aqui</h4>
+        <!--crie um formulario para mim que contenha usuario, email, senha e confirmar senha-->
+        <form method="get" action=".">
+            <label>Usuário:
+                <input name="usuario" type="text" id="usuario" size="45" /></label><br />
+            <label>Email:
+                <input name="email" type="text" id="email" size="45" /></label><br />
+            <label>Senha:
+                <input name="senha" type="password" id="senha" size="20" /></label><br />
+            <label>Confirmar Senha:
+                <input name="confirmar_senha" type="password" id="confirmar_senha" size="20" /></label><br />
+            <input type="submit" value="Cadastrar" />
+            <input type="reset" value="Limpar" />
+            <img src="https://scansource.com.br/wp-content/uploads/2024/02/Imagem-Principal.jpg"
+                alt="Cadastrar" width="400" height="200"> 
+    </section>
+    <section id="funcionario" class="bg-success text-white">
+        <div class="container">
+            <h1 class="text-center">Nossos Funcionarios</h1>
+            <h3>Suas Informações Para Contato</h3>
+            <!--crie um formulario para mim que contenha nomes, emails, telefone e cep-->
+            <form method="get" action=".">
+                <label>Nome:
+                    <input name="nome" type="text" id="nome" size="45" /></label><br />
+                <label>Email:
+                    <input name="email" type="text" id="email" size="45" /></label><br />
+                <label>Cep:
+                    <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
+                        onblur="pesquisacep(this.value);" /></label><br />
+                <label>Rua:
+                    <input name="rua" type="text" id="rua" size="45" /></label><br />
+                <label>Bairro:
+                    <input name="bairro" type="text" id="bairro" size="45" /></label><br />
+                <label>Cidade:
+                    <input name="cidade" type="text" id="cidade" size="45" /></label><br />
+                <label>Estado:
+                    <input name="uf" type="text" id="uf" size="6" /></label><br />
+                <label>IBGE:
+                    <input name="ibge" type="text" id="ibge" size="7" /></label><br />
+                <input type="submit" value="Enviar" />
+                <input type="reset" value="Limpar" />
+                <img src="https://www.franquiawsi.com.br/wp-content/uploads/2015/06/29_022.jpg" alt="Funcionarios" width="400" height="200">
+
+
+
+
+
+            </form>
+        </div>
+    </section>
+
+
+
+
+
+
+    <section id="detalhe" class="bg-warning text-white">
+        <h1 class="text-center">Detalhes</h1>
+        <h4 class="text-center">Alguns detalhes sobre nós</h4>
+        <!-- faça um texto em paragrafos nos dois lados da seção explicando o que é IA e tecnologia e com uma imagem em baixo de cada texto-->
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="text-center" style="width: 45%;">
+                <h3>Inteligência Artificial (IA)</h3>
+                <p>A Inteligência Artificial (IA) refere-se à simulação de processos de inteligência humana por
+                    máquinas, especialmente sistemas computacionais. Esses processos incluem aprendizado (a aquisição
+                    de informações e regras para o uso das informações), raciocínio (usando regras para chegar a
+                    conclusões aproximadas ou definitivas) e autocorreção. A IA está presente em diversas áreas,
+                    desde assistentes virtuais, como Siri e Alexa, até sistemas de recomendação em plataformas de
+                    streaming e comércio eletrônico.</p>
+                <img src="https://files.tecnoblog.net/wp-content/uploads/2023/06/ia-4.png" alt="IA"
+                    width="300" height="200">
+            </div>
+            <div class="text-center" style="width: 45%;">
+                <h3>Tecnologia</h3>
+                <p>Tecnologia é o conjunto de conhecimentos, técnicas, habilidades e processos utilizados na criação
+                    de bens e serviços que atendem às necessidades humanas. Ela abrange uma ampla gama de áreas,
+                    incluindo informática, telecomunicações, biotecnologia, engenharia, entre outras. A tecnologia
+                    tem transformado a maneira como vivemos, trabalhamos e nos comunicamos, impulsionando avanços em
+                    saúde, educação, transporte e entretenimento. Com o rápido desenvolvimento tecnológico, novas
+                    oportunidades e desafios surgem constantemente.</p>
+                <img src="https://www.lg.com.br/blog/wp-content/uploads/2019/11/tecnologia-e-ser-humano-1.png" alt="Tecnologia"
+                    width="300" height="200">
+            </div>
+
+    </section>
+    <section id="mapa" class="bg-info text-white">
+        <h1 class="text-center">Mapa</h1>
+        <h4 class="text-center">Nosssa Localização</h4>
+        <!--coloque um mapa aqui-->
+        <div class="text-center">
+            <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d486.7002254453612!2d-43.17455390024916!3d-22.910771352268334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9981df66f6020b%3A0x5fed1e66fa865506!2sFaculdade%20Senac%20RJ!5e0!3m2!1spt-BR!2sbr!4v1757089294047!5m2!1spt-BR!2sbr"
+            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <!--coloque textos dizendo pontos de referencias e etc-->
+        <p class="text-center">Ponto de Referência: Próximo ao Shopping Rio Sul, em Botafogo, Rio de Janeiro - RJ</p>
+
+ 
+    </section>
+    <section id="contato" class="bg-danger text-white">
+        <h1 class="text-center">Contato</h1>
+        <h4>Entre em Contato aqui</h4>
+        <!--crie um formulario para mim que contenha nome, email, telefone e mensagem-->
+        <form method="get" action=".">
+            <label>Nome:
+                <input name="nome" type="text" id="nome" size="45" /></label><br />
+            <label>Email:
+                <input name="email" type="text" id="email" size="45" /></label><br />
+            <label>Telefone:
+                <input name="telefone" type="text" id="telefone" size="20" /></label><br />
+            <label>Mensagem:
+                <textarea name="mensagem" id="mensagem" rows="4" cols="50"></textarea></label><br />
+            <input type="submit" value="Enviar" />
+            <input type="reset" value="Limpar" />
+            <img src="https://imagens.ebc.com.br/OyvIDUq8YzcMB_k-zCBD-ZhItEA=/754x0/smart/https://agenciabrasil.ebc.com.br/sites/default/files/atoms/image/905168-telefone%20fixo%208.jpg?itok=agCc0Cq8" alt="Contato" width="400" height="200">
+    </section>
+
+
+    <!--bootstrap JS bundle (com popper)-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+
+
+
+</body>
+
+</html>
